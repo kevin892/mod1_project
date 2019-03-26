@@ -6,7 +6,7 @@ require_all "lib"
 
 ActiveRecord::Base.establish_connection(
   adapter: "sqlite3",
-  database: "db/green.db"
+  database: "db/events.db"
 )
 
 # binding.pry
