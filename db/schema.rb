@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
-
-  create_table "cities", force: :cascade do |t|
-    t.string "name"
-  end
+ActiveRecord::Schema.define(version: 3) do
 
   create_table "events", force: :cascade do |t|
     t.text "name"
@@ -22,10 +18,6 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "sale_start_date"
     t.string "genre"
     t.integer "min_price"
-  end
-
-  create_table "states", force: :cascade do |t|
-    t.string "name"
   end
 
   create_table "venue_event", force: :cascade do |t|
@@ -39,6 +31,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "venues", force: :cascade do |t|
     t.text "name"
     t.text "parking_info"
+    t.text "city"
     t.text "address"
   end
 

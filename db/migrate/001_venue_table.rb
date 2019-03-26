@@ -3,6 +3,7 @@ class VenueTable < ActiveRecord::Migration[5.2]
     create_table :venues do |t|
       t.text :name
       t.text :parking_info
+      t.text :city
       t.text :address
     end
   end

@@ -11,3 +11,5 @@ gem "activerecord", "~> 5.2"
 gem "pry", "~> 0.12.2"
 gem "sqlite3", "~> 1.4"
 gem "sinatra-activerecord", "~> 2.0"
+
+gem "rest-client", "~> 2.0"
