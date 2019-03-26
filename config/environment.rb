@@ -1,4 +1,5 @@
 require "sinatra/activerecord"
+require_relative 'config/command_line_interface.rb'
 require "pry"
 
 require "require_all"
