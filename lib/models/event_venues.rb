@@ -1,2 +1,2 @@
-class EventVenue < ActiveRecord::Base
-end
+# class EventVenue < ActiveRecord::Base
+# end

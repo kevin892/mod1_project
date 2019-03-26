@@ -10,29 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
 
-  create_table "events", force: :cascade do |t|
-    t.text "name"
-    t.text "url"
-    t.datetime "sale_start_date"
-    t.string "genre"
-    t.integer "min_price"
+  create_table "cards", force: :cascade do |t|
+    t.integer "card_number"
+    t.integer "customer_id"
+    t.index ["customer_id"], name: "index_cards_on_customer_id"
   end
 
-  create_table "venue_event", force: :cascade do |t|
-    t.datetime "event_date"
-    t.integer "venue_id"
-    t.integer "event_id"
-    t.index ["event_id"], name: "index_venue_event_on_event_id"
-    t.index ["venue_id"], name: "index_venue_event_on_venue_id"
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
   end
 
-  create_table "venues", force: :cascade do |t|
+  create_table "customers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
     t.text "name"
-    t.text "parking_info"
-    t.text "city"
-    t.text "address"
+    t.datetime "payment_process_date"
+    t.integer "amount"
+    t.string "type"
   end
 
 end

@@ -1,2 +1,2 @@
-class Event < ActiveRecord::Base
-end
+# class Event < ActiveRecord::Base
+# end
