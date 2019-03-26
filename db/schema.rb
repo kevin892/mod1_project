@@ -32,6 +32,10 @@ ActiveRecord::Schema.define(version: 4) do
     t.datetime "payment_process_date"
     t.integer "amount"
     t.string "type"
+    t.integer "card_id"
+    t.integer "company_id"
+    t.index ["card_id"], name: "index_subscriptions_on_card_id"
+    t.index ["company_id"], name: "index_subscriptions_on_company_id"
   end
 
 end
