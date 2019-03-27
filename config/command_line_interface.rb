@@ -88,6 +88,8 @@ def selector(num, user=nil)
       delete_subscription(user)
     when 106
       next_bill(user)
+    when 107
+      view_companies(user)
     when 110
       return 1
     when 201
@@ -100,7 +102,7 @@ end
 def personal_menu_01(user)
   control = 0
   while control == 0
-    puts "What would you like to do?\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n10 - Exit"
+    puts "What would you like to do?\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n7 - Companies subscribed to\n10 - Exit"
     c = selector(user_select.to_i+100, user)
     control = c if c ==1
   end
@@ -122,7 +124,17 @@ def add_subscription(user)
   bill_amount = user_select
   print "How would you describe this subscription?\n"
   desc = user_select
-  user.subscriptions << Subscription.create(name: name, payment_process_date: dotm, amount: bill_amount, subscription_type: desc)
+  print "What company is the subscription with?\n"
+  company = user_select
+  # binding.pry
+  while !Company.all.map(&:name).include?(company)
+    puts "Company not found, try again."
+    company = user_select
+  end
+
+  new_sub =Subscription.create(name: name, payment_process_date: dotm, amount: bill_amount, subscription_type: desc)
+  user.subscriptions << new_sub
+  Company.find_by(name:company).subscriptions << new_sub
   puts "Subscription created!"
   sleep 5
 end
@@ -161,6 +173,10 @@ def next_bill(user)
 
   puts "Your next bill is due on the #{due}th"
     binding.pry
+end
+
+def view_companies(user)
+
 end
 
 def business_menu_01(user)
