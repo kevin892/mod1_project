@@ -1,0 +1,55 @@
+
+require_relative 'config/environment.rb'
+
+# visa = Card.create(card_number: 3859834509234)
+# amex = Card.create(card_number: 2342343452346)
+# discover = Card.create(card_number: 8712377510921)
+#
+# bob = Customer.create(first_name: "Bob", last_name: "McBlob")
+# steve = Customer.create(first_name: "Steve", last_name: "G")
+#
+# netflix_sub = Subscription.create(name: "Netlix Monthly", payment_process_date: 19, amount: 7, subscription_type: "Video")
+#
+# energy = Subscription.create(name: "Energy Payment", payment_process_date: 5, amount: 30, subscription_type: "Utility")
+#
+# rent = Subscription.create(name: "Rent", payment_process_date: 1, amount: 600, subscription_type:  "Housing")
+#
+# trash = Subscription.create(name: "Trash Disposal", payment_process_date: 1, amount: 4, subscription_type: "Utility")
+#
+#
+# xcel = Company.create(name: "Xcel")
+# netflix = Company.create(name: "Netflix")
+# appartment = Company.create(name: "Leasing Company")
+#
+# netflix.subscriptions << netflix_sub
+# appartment.subscriptions << rent
+# xcel.subscriptions << energy
+# appartment.subscriptions << trash
+#
+#
+# bob.cards << visa
+# bob.cards << amex
+#
+# steve.cards << discover
+# steve.cards << visa
+# steve.cards << amex
+#
+# puts "What is your username?"
+# user1 = gets.chomp
+# puts "What is your first_name?"
+# firstname = gets.chomp
+# puts "What is your last_name?"
+# lastname = gets.chomp
+#
+Customer.create(first_name: "#{firstname}", last_name: "#{lastname}")
+# # bob.subscriptions << trash
+# # bob.subscriptions << netflix_sub
+# # amex.customer << steve
+# # discover.customer << steve
+# # visa.customer << steve
+# puts "Hi #{firstname}!"
+#
+# # puts "What company are you subscribed to?"
+# # company1 =
+#
+# binding.pry

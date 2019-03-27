@@ -14,15 +14,15 @@ end
 def personal_menu
   # System('clear')
   puts 'You made it to the personal menu!'
-  puts "Please enter your name. \nFirst: "
+  puts "Please enter your name. \nFirst Name: "
   first = gets.chomp
-  puts "\nLast: "
+  puts "\nLast Name: "
   last = gets.chomp
   if Customer.find_by(first_name: first) && Customer.find_by(last_name: last)
     puts "Welcome #{first} #{last}"
     sleep 1
     puts "Getting your info..."
-    sleep 1
+    sleep 2
     # binding.pry
     return Customer.find_by(first_name: first, last_name: last)
   else
@@ -32,17 +32,18 @@ def personal_menu
     choice = choice.upcase.chomp!
     # binding.pry
     if choice == 'Y'
-      Customer.create(first_name: first, last_name: last)
-      puts "#{first}'s profile added!'"
+      new_customer = Customer.create(first_name: first, last_name: last)
+      puts "#{first}'s profile added!"
+      new_customer
     else
-      puts 'AAHAHAHAHHAHHAHAHAH'
-      binding.pry
+      puts 'Ok, Goodbye'
+      sleep 2
     end
   end
 end
 
 def business_menu
-  print 'You made it to the business menu!'
+  puts 'You made it to the business menu!'
   puts "Please enter company name: "
   company = gets.chomp
   if Company.find_by(name: company)
@@ -59,11 +60,12 @@ def business_menu
     choice = choice.upcase.chomp!
     # binding.pry
     if choice == 'Y'
-      Company.create(name: company)
-      puts "#{company}'s profile added!'"
+      new_company = Company.create(name: company)
+      puts "#{company}'s profile added!"
+      new_company
     else
-      puts 'AAHAHAHAHHAHHAHAHAH'
-      binding.pry
+      puts 'Ok, Goodbye'
+      sleep 2
     end
   end
 end
@@ -94,6 +96,12 @@ def selector(num, user=nil)
       return 1
     when 201
       company_subscriptions(user)
+    when 202
+      customers_count(user)
+    when 203
+      company_customers(user)
+    when 204
+      monthly_income(user)
     else
       binding.pry
     end
@@ -110,6 +118,7 @@ end
 
 def view_subscriptions(user)
   puts user.subscriptions.map(&:name)
+  sleep 4
   # binding.pry
   # sleep
 end
@@ -171,13 +180,22 @@ def next_bill(user)
   binding.pry
   due = user.subscriptions.map(&:payment_process_date).min_by{|i| (i-today)}
 
+  if due == 1 || due == 21 || due ==  31
+    puts "Your next bill is due on the #{due}st"
+  elsif due == 2 || due == 22
+    puts "Your next bill is due on the #{due}nd"
+  elsif due == 3 || due == 23
+  puts "Your next bill is due on the #{due}rd"
+else
   puts "Your next bill is due on the #{due}th"
-    binding.pry
+  end
+  sleep 3
 end
 
 def view_companies(user)
   puts user.subscriptions.map{|sub| sub.company.name}.uniq
-  binding.pry
+  sleep 4
+  # binding.pry
 end
 
 def business_menu_01(user)
@@ -191,8 +209,26 @@ end
 
 def company_subscriptions(user)
   puts user.subscriptions.map(&:name)
+  sleep 4
 
   binding.pry
 end
+
+def monthly_income(user)
+  puts "#{user.name} makes $#{user.subscriptions.map(&:amount).reduce(&:+)} per month."
+  sleep 4
+end
+
+def company_customers(user)
+  puts user.subscriptions.map{|sub| sub.customer.fullname}.uniq
+  sleep 4
+end
+
+def customers_count(user)
+  puts user.subscriptions.map{|sub| sub.customer.fullname}.uniq.count
+  sleep 4
+end
+
+
 
 # puts user.subscriptions.map{|sub| sub.company.name}.uniq
