@@ -4,8 +4,8 @@ class SubscriptionTable < ActiveRecord::Migration[5.2]
       t.text :name
       t.datetime :payment_process_date
       t.integer :amount
-      t.string :type
-      t.references :card
+      t.string :subscription_type
+      t.references :customer
       t.references :company
     end
   end

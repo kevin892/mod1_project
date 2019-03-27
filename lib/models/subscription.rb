@@ -1,4 +1,4 @@
 class Subscription < ActiveRecord::Base
   belongs_to :company
-  belongs_to :card
+  belongs_to :customer
 end

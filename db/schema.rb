@@ -12,12 +12,6 @@
 
 ActiveRecord::Schema.define(version: 4) do
 
-  create_table "cards", force: :cascade do |t|
-    t.integer "card_number"
-    t.integer "customer_id"
-    t.index ["customer_id"], name: "index_cards_on_customer_id"
-  end
-
   create_table "companies", force: :cascade do |t|
     t.string "name"
   end
@@ -31,11 +25,11 @@ ActiveRecord::Schema.define(version: 4) do
     t.text "name"
     t.datetime "payment_process_date"
     t.integer "amount"
-    t.string "type"
-    t.integer "card_id"
+    t.string "subscription_type"
+    t.integer "customer_id"
     t.integer "company_id"
-    t.index ["card_id"], name: "index_subscriptions_on_card_id"
     t.index ["company_id"], name: "index_subscriptions_on_company_id"
+    t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
   end
 
 end
