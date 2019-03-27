@@ -1,5 +1,13 @@
 
 def welcome
+  puts "Welcome to Scribed!"
+  sleep 3
+  puts "Loading awesome data..."
+  sleep 1
+  puts ".............."
+  sleep 1
+  print ".......................................\n"
+  sleep 1
   puts "Are you a personal or business user?\n1 - Personal\n2 - Business\n"
 end
 
