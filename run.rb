@@ -1,4 +1,10 @@
 
 require_relative 'config/environment.rb'
 
-binding.pry
+welcome
+selector(user_select)
+# personal_menu
+
+
+
+# binding.pry
