@@ -6,7 +6,7 @@ require_all 'lib'
 require 'date'
 
 
-
+ActiveRecord::Base.logger = nil
 
 ActiveRecord::Base.establish_connection(
   adapter: "sqlite3",

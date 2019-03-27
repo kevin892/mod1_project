@@ -90,10 +90,10 @@ def selector(num, user=nil)
       next_bill(user)
     when 107
       view_companies(user)
-    when 110
+    when 110 || 210
       return 1
     when 201
-
+      company_subscriptions(user)
     else
       binding.pry
     end
@@ -176,14 +176,23 @@ def next_bill(user)
 end
 
 def view_companies(user)
-
+  puts user.subscriptions.map{|sub| sub.company.name}.uniq
+  binding.pry
 end
 
 def business_menu_01(user)
   control = 0
   while control == 0
-    puts "What would you like to do?\n1 - View Subscriptions\n2 - Offer Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n10 - Exit"
+    puts "What would you like to do?\n1 - View Subscriptions\n2 - User Count\n3 - Get Users\n4 - Monthly Income\n10 - Exit"
     c = selector(user_select.to_i+200, user)
     control = c if c ==1
   end
 end
+
+def company_subscriptions(user)
+  puts user.subscriptions.map(&:name)
+
+  binding.pry
+end
+
+# puts user.subscriptions.map{|sub| sub.company.name}.uniq
