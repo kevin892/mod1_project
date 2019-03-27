@@ -1,6 +1,6 @@
 
 def welcome
-  puts "Are you a personal or business user?\n1 - personal\n2 - business\n"
+  puts "Are you a personal or business user?\n1 - Personal\n2 - Business\n"
 end
 
 
@@ -19,10 +19,10 @@ def personal_menu
   puts "\nLast Name: "
   last = gets.chomp
   if Customer.find_by(first_name: first) && Customer.find_by(last_name: last)
-    puts "Welcome #{first} #{last}"
-    sleep 1
     puts "Getting your info..."
     sleep 2
+    puts "Welcome #{first} #{last}"
+    sleep 1
     # binding.pry
     return Customer.find_by(first_name: first, last_name: last)
   else
@@ -47,9 +47,9 @@ def business_menu
   puts "Please enter company name: "
   company = gets.chomp
   if Company.find_by(name: company)
-    puts "Welcome #{company}"
-    sleep 1
     puts "Getting your info..."
+    sleep 2
+    puts "Welcome #{company}"
     sleep 1
     # binding.pry
     return Company.find_by(name: company)
@@ -117,7 +117,11 @@ def personal_menu_01(user)
 end
 
 def view_subscriptions(user)
+  if user.subscriptions.map(&:name).empty?
+    puts "You dont have any subscriptions yet."
+  else
   puts user.subscriptions.map(&:name)
+  end
   sleep 4
   # binding.pry
   # sleep
@@ -136,9 +140,23 @@ def add_subscription(user)
   print "What company is the subscription with?\n"
   company = user_select
   # binding.pry
-  while !Company.all.map(&:name).include?(company)
-    puts "Company not found, try again."
+  i = 0
+  while !Company.all.map(&:name).include?(company) && i <= 1
+    puts "Company not found, are any of these the company you are looking for?"
+    puts Company.all.map(&:name)
     company = user_select
+    # puts "Company not found, try again."
+    i+=1
+  end
+
+  puts "Would you like to create #{company}? (Y/N)"
+  answer = user_select
+  if answer == "y"|| answer =="Y"
+    Company.create(name: company)
+  else
+    puts"Creation Canceled!"
+    sleep 2
+    return
   end
 
   new_sub =Subscription.create(name: name, payment_process_date: dotm, amount: bill_amount, subscription_type: desc)
@@ -201,26 +219,36 @@ end
 def business_menu_01(user)
   control = 0
   while control == 0
-    puts "What would you like to do?\n1 - View Subscriptions\n2 - User Count\n3 - Get Users\n4 - Monthly Income\n10 - Exit"
+    puts "What would you like to do?\n1 - View Subscriptions\n2 - User Count\n3 - Get Customers\n4 - Monthly Income\n10 - Exit"
     c = selector(user_select.to_i+200, user)
     control = c if c ==1
   end
 end
 
 def company_subscriptions(user)
+  if user.subscriptions.map(&:name).empty?
+    puts "You dont have any subscriptions yet."
+  else
   puts user.subscriptions.map(&:name)
+  end
   sleep 4
-
-  binding.pry
 end
 
 def monthly_income(user)
+   if user.subscriptions.map(&:amount).empty?
+  puts "#{user.name} isn't making any money yet."
+  else
   puts "#{user.name} makes $#{user.subscriptions.map(&:amount).reduce(&:+)} per month."
-  sleep 4
+  end
+sleep 4
 end
 
 def company_customers(user)
+  if user.subscriptions.map{|sub| sub.customer.fullname}.empty?
+    puts "You dont have any customers yet."
+  else
   puts user.subscriptions.map{|sub| sub.customer.fullname}.uniq
+  end
   sleep 4
 end
 
