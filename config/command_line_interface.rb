@@ -212,7 +212,7 @@ end
 
 def view_expenses(user)
   puts "Your total monthly expenses are $#{user.subscriptions.sum(:amount)}."
-  sleep 3
+  sleep 5
 end
 
 def check_for_subs(user)
@@ -251,7 +251,7 @@ def delete_subscription(user)
   else
   puts "invalid selection"
 end
-  sleep 3
+  sleep 2
 end
 
 def next_bill(user)
@@ -267,7 +267,7 @@ def next_bill(user)
 else
   puts "Your next bill is due on the #{due}th"
   end
-  sleep 3
+  sleep 5
 end
 
 def all_dates(user)
@@ -291,7 +291,8 @@ end
 
 def view_companies(user)
   puts user.subscriptions.map{|sub| sub.company.name}.uniq
-  # sleep 4
+  sleep 5
+  puts `clear`
   # binding.pry
 end
 
