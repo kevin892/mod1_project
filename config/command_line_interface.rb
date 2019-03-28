@@ -2,12 +2,6 @@
 def welcome
   puts "\nWelcome to Scribed!"
   sleep 1
-  puts "\nLoading awesome data..."
-  sleep 1
-  puts "\n.............."
-  sleep 1
-  print "....................................\n"
-  sleep 1
   puts "\nAre you a personal or business user?\n1 - Personal\n2 - Business\n"
 end
 
@@ -20,20 +14,21 @@ end
 
 
 def personal_menu
-  # System('clear')
+  puts `clear`
   puts "\nYou made it to the personal menu!\n"
-  sleep 1
+  # sleep 1
   puts "\nPlease enter your name: \n\nFirst Name "
   print " Entry: "
   first = gets.chomp
   puts "\nLast Name "
   print " Entry: "
   last = gets.chomp
+  puts `clear`
   if Customer.find_by(first_name: first) && Customer.find_by(last_name: last)
     puts "\nGetting your info...\n"
-    sleep 2
+    # sleep 2
     puts "\nWelcome, #{first} #{last}!\n"
-    sleep 1
+    # sleep 1
     # binding.pry
     return Customer.find_by(first_name: first, last_name: last)
   else
@@ -47,22 +42,24 @@ def personal_menu
       puts "#{first}'s profile added!"
       new_customer
     else
+      puts `clear`
       puts 'Ok, Goodbye'
-      sleep 2
+      # sleep 2
     end
   end
 end
 
 def business_menu
+  puts `clear`
   puts "\nYou made it to the business menu!\n"
-  sleep 1
+  # sleep 1
   puts "\nPlease enter company name: \n\nCompany Name: "
   company = gets.chomp
   if Company.find_by(name: company)
     puts "\nGetting your info...\n"
-    sleep 2
+    # sleep 2
     puts "\nWelcome, #{company}!\n"
-    sleep 1
+    # sleep 1
     # binding.pry
     return Company.find_by(name: company)
   else
@@ -77,7 +74,7 @@ def business_menu
       new_company
     else
       puts 'Ok, Goodbye'
-      sleep 2
+      # sleep 2
     end
   end
 end
@@ -122,11 +119,13 @@ def selector(num, user=nil)
 end
 
 def personal_menu_01(user)
+
   control = 0
   while control == 0
     puts "\nWhat would you like to do?\n\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n7 - Companies subscribed to\n9- All due dates\n10 - Exit"
     c = selector(user_select.to_i+100, user)
     control = c if c ==1
+    puts `clear`
   end
 end
 
@@ -136,9 +135,8 @@ def view_subscriptions(user)
   else
   puts user.subscriptions.map(&:name)
   end
-  sleep 4
+  # sleep 4
   # binding.pry
-  # sleep
 end
 
 def add_subscription(user)
@@ -161,7 +159,6 @@ def add_subscription(user)
     company = user_select
     # puts "Company not found, try again."
     i+=1
-  end
 
   puts "Would you like to create #{company}? (Y/N)"
   answer = user_select
@@ -169,20 +166,21 @@ def add_subscription(user)
     Company.create(name: company)
   else
     puts"Creation Canceled!"
-    sleep 2
+    # sleep 2
     return
+  end
   end
 
   new_sub =Subscription.create(name: name, payment_process_date: dotm, amount: bill_amount, subscription_type: desc)
   user.subscriptions << new_sub
   Company.find_by(name:company).subscriptions << new_sub
   puts "Subscription created!"
-  sleep 5
+  # sleep 5
 end
 
 def view_expenses(user)
   puts "Your total monthly expenses are $#{user.subscriptions.sum(:amount)}."
-  sleep 3
+  # sleep 3
 end
 
 def update_subscription(user)
@@ -203,7 +201,7 @@ def delete_subscription(user)
   subs.destroy
   # view_subscriptions(user)
   puts "#{subs.name} has been deleted! You must restart the program for changes to be reflected"
-  sleep 3
+  # sleep 3
 end
 
 def next_bill(user)
@@ -219,7 +217,7 @@ def next_bill(user)
 else
   puts "Your next bill is due on the #{due}th"
   end
-  sleep 3
+  # sleep 3
 end
 
 def all_dates(user)
@@ -235,15 +233,15 @@ def all_dates(user)
    else
      puts "A bill is due on the #{x}th"
      end
-     sleep 1
+     # sleep 1
    end
 
-  sleep 7
+  # sleep 7
 end
 
 def view_companies(user)
   puts user.subscriptions.map{|sub| sub.company.name}.uniq
-  sleep 4
+  # sleep 4
   # binding.pry
 end
 
@@ -253,6 +251,7 @@ def business_menu_01(user)
     puts "What would you like to do?\n1 - View Subscriptions\n2 - User Count\n3 - Get Customers\n4 - Monthly Income\n10 - Exit"
     c = selector(user_select.to_i+200, user)
     control = c if c ==1
+    puts `clear`
   end
 end
 
@@ -262,7 +261,7 @@ def company_subscriptions(user)
   else
   puts user.subscriptions.map(&:name)
   end
-  sleep 4
+  # sleep 4
 end
 
 def monthly_income(user)
@@ -271,7 +270,7 @@ def monthly_income(user)
   else
   puts "#{user.name} makes $#{user.subscriptions.map(&:amount).reduce(&:+)} per month."
   end
-sleep 4
+# sleep 4
 end
 
 def company_customers(user)
@@ -280,12 +279,12 @@ def company_customers(user)
   else
   puts user.subscriptions.map{|sub| sub.customer.fullname}.uniq
   end
-  sleep 4
+  # sleep 4
 end
 
 def customers_count(user)
   puts user.subscriptions.map{|sub| sub.customer.fullname}.uniq.count
-  sleep 4
+  # sleep 4
 end
 
 
