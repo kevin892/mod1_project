@@ -81,24 +81,27 @@ def business_menu
 end
 
 def selector(num, user=nil)
-  binding.pry
+  # binding.pry
     num = num.to_i
     if user == nil
       while num != 1 && num != 2
+        puts "Please enter a valid selection"
         num = user_select.to_i
       end
     elsif user.class == Customer
-      while !(100..110).include?(num)
-        num = user_select.to_i
+      while !(101..110).include?(num)
+        puts "Please enter a valid selection"
+        num = user_select.to_i+100
       end
     elsif user.class == Company
-      while !(200..210).include?(num)
-        num = user_select.to_i
+      while !(201..204).include?(num) && num !=210
+        puts "Please enter a valid selection"
+        num = user_select.to_i+200
       end
     end
 
 
-    binding.pry
+    # binding.pry
     case num.to_i
     when 1
       personal_menu
@@ -132,8 +135,8 @@ def selector(num, user=nil)
     when 204
       monthly_income(user)
     else
-      puts 'Not a valid selection'
-      sleep 1
+      puts 'Something went very wrong'
+      sleep 5
       return 1
     end
 end
