@@ -81,13 +81,23 @@ def business_menu
 end
 
 def selector(num, user=nil)
-  # binding.pry
-
+  binding.pry
+    num = num.to_i
     if user == nil
       while num != 1 && num != 2
         num = user_select.to_i
       end
+    elsif user.class == Customer
+      while !(100..110).include?(num)
+        num = user_select.to_i
+      end
+    elsif user.class == Company
+      while !(200..210).include?(num)
+        num = user_select.to_i
+      end
     end
+
+
     binding.pry
     case num.to_i
     when 1
