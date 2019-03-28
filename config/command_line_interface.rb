@@ -126,6 +126,7 @@ def selector(num, user=nil)
     when 107
       view_companies(user)
     when 110 || 210
+      puts `clear`
       puts 'Thanks for using Scribed! Goodbye✌️'
       sleep 5
       return 1
@@ -230,9 +231,13 @@ def update_subscription(user)
   return if check_for_subs(user) == 1
   subs = user_select
   subs = user.subscriptions.find{|subscription| subscription.name == subs}
+  if subs.class == Subscription
   puts "What would you like to change it to?"
   subs.update(name: user_select)
   puts "Subscription updated!"
+else
+  puts "invalid selection"
+end
   sleep 2
   # binding.pry
 end
