@@ -1,13 +1,14 @@
 
 def welcome
+  puts `clear`
   puts "\nWelcome to Scribed!"
-  sleep 1
+  # sleep 1
   puts "\nAre you a personal or business user?\n1 - Personal\n2 - Business\n"
 end
 
 
 def user_select
-  print "\n Entry: "
+  print "\nEntry: "
   gets.chomp
 end
 
@@ -81,6 +82,13 @@ end
 
 def selector(num, user=nil)
   # binding.pry
+
+    if user == nil
+      while num != 1 && num != 2
+        num = user_select.to_i
+      end
+    end
+    binding.pry
     case num.to_i
     when 1
       personal_menu
@@ -114,7 +122,9 @@ def selector(num, user=nil)
     when 204
       monthly_income(user)
     else
-      binding.pry
+      puts 'Not a valid selection'
+      sleep 1
+      return 1
     end
 end
 
@@ -122,7 +132,7 @@ def personal_menu_01(user)
 
   control = 0
   while control == 0
-    puts "\nWhat would you like to do?\n\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n7 - Companies subscribed to\n9- All due dates\n10 - Exit"
+    puts "\nWhat would you like to do?\n\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n7 - Companies subscribed to\n9 - All due dates\n10 - Exit"
     c = selector(user_select.to_i+100, user)
     control = c if c ==1
     puts `clear`
@@ -135,19 +145,20 @@ def view_subscriptions(user)
   else
   puts user.subscriptions.map(&:name)
   end
-  # sleep 4
+  sleep 4
   # binding.pry
 end
 
 def add_subscription(user)
-  puts "adding sub"
+  puts "Adding subscription"
   print "\nWhat is the name of the subscription?\n"
   name = user_select
   print "\nWhat day of the month is it processed?\n"
   dotm = user_select.to_i
   print "\nHow much is the bill?\n"
   bill_amount = user_select
-  print "\nHow would you describe this subscription?\n"
+  print "\nWhich catagory is this subscription?\n"
+  # sub_cat_selector()
   desc = user_select
   print "\nWhat company is the subscription with?\n"
   company = user_select
@@ -183,9 +194,18 @@ def view_expenses(user)
   # sleep 3
 end
 
+def check_for_subs(user)
+  if user.subscriptions.empty?
+    sleep 3
+    puts `clear`
+    return 1
+  end
+end
+
 def update_subscription(user)
   puts "Which subscription would you like to update?"
   view_subscriptions(user)
+  return if check_for_subs(user) == 1
   subs = user_select
   subs = user.subscriptions.find{|subscription| subscription.name == subs}
   puts "What would you like to change it to?"
@@ -196,6 +216,7 @@ end
 def delete_subscription(user)
   puts "Which subscription would you like to delete?"
   view_subscriptions(user)
+  return if check_for_subs(user) == 1
   subs = user_select
   subs = user.subscriptions.find{|subscription| subscription.name == subs}
   subs.destroy
