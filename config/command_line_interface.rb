@@ -1,19 +1,19 @@
 
 def welcome
-  puts "Welcome to Scribed!"
-  sleep 3
-  puts "Loading awesome data..."
+  puts "\nWelcome to Scribed!"
   sleep 1
-  puts ".............."
+  puts "\nLoading awesome data..."
   sleep 1
-  print ".......................................\n"
+  puts "\n.............."
   sleep 1
-  puts "Are you a personal or business user?\n1 - Personal\n2 - Business\n"
+  print "....................................\n"
+  sleep 1
+  puts "\nAre you a personal or business user?\n1 - Personal\n2 - Business\n"
 end
 
 
 def user_select
-  print 'Entry: '
+  print "\n Entry: "
   gets.chomp
 end
 
@@ -21,20 +21,23 @@ end
 
 def personal_menu
   # System('clear')
-  puts 'You made it to the personal menu!'
-  puts "Please enter your name. \nFirst Name: "
+  puts "\nYou made it to the personal menu!\n"
+  sleep 1
+  puts "\nPlease enter your name: \n\nFirst Name "
+  print " Entry: "
   first = gets.chomp
-  puts "\nLast Name: "
+  puts "\nLast Name "
+  print " Entry: "
   last = gets.chomp
   if Customer.find_by(first_name: first) && Customer.find_by(last_name: last)
-    puts "Getting your info..."
+    puts "\nGetting your info...\n"
     sleep 2
-    puts "Welcome #{first} #{last}"
+    puts "\nWelcome, #{first} #{last}!\n"
     sleep 1
     # binding.pry
     return Customer.find_by(first_name: first, last_name: last)
   else
-    puts "Name not found! Would you like to create? (Y / N)"
+    puts "Name not found! Would you like to create? (Y / N)\n"
     # binding.pry
     choice = gets
     choice = choice.upcase.chomp!
@@ -51,18 +54,19 @@ def personal_menu
 end
 
 def business_menu
-  puts 'You made it to the business menu!'
-  puts "Please enter company name: "
+  puts "\nYou made it to the business menu!\n"
+  sleep 1
+  puts "\nPlease enter company name: \n\nCompany Name: "
   company = gets.chomp
   if Company.find_by(name: company)
-    puts "Getting your info..."
+    puts "\nGetting your info...\n"
     sleep 2
-    puts "Welcome #{company}"
+    puts "\nWelcome, #{company}!\n"
     sleep 1
     # binding.pry
     return Company.find_by(name: company)
   else
-    puts "Company not found! Would you like to create? (Y / N)"
+    puts "Company not found! Would you like to create? (Y / N)\n"
     # binding.pry
     choice = gets
     choice = choice.upcase.chomp!
@@ -98,6 +102,8 @@ def selector(num, user=nil)
       delete_subscription(user)
     when 106
       next_bill(user)
+    when 109
+      all_dates(user)
     when 107
       view_companies(user)
     when 110 || 210
@@ -118,7 +124,7 @@ end
 def personal_menu_01(user)
   control = 0
   while control == 0
-    puts "What would you like to do?\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n7 - Companies subscribed to\n10 - Exit"
+    puts "\nWhat would you like to do?\n\n1 - View Subscriptions\n2 - Add Subscription\n3 - View Total Monthly Expenses\n4 - Update Subscription\n5 - Delete Subscription\n6 - Next due date\n7 - Companies subscribed to\n9- All due dates\n10 - Exit"
     c = selector(user_select.to_i+100, user)
     control = c if c ==1
   end
@@ -137,15 +143,15 @@ end
 
 def add_subscription(user)
   puts "adding sub"
-  print "What is the name of the subscription?\n"
+  print "\nWhat is the name of the subscription?\n"
   name = user_select
-  print "What day of the month is it processed?\n"
+  print "\nWhat day of the month is it processed?\n"
   dotm = user_select.to_i
-  print "How much is the bill?\n"
+  print "\nHow much is the bill?\n"
   bill_amount = user_select
-  print "How would you describe this subscription?\n"
+  print "\nHow would you describe this subscription?\n"
   desc = user_select
-  print "What company is the subscription with?\n"
+  print "\nWhat company is the subscription with?\n"
   company = user_select
   # binding.pry
   i = 0
@@ -194,16 +200,14 @@ def delete_subscription(user)
   view_subscriptions(user)
   subs = user_select
   subs = user.subscriptions.find{|subscription| subscription.name == subs}
-  binding.pry
   subs.destroy
   # view_subscriptions(user)
-  puts "You must restart the program for changes to be reflected"
-  sleep 6
+  puts "#{subs.name} has been deleted! You must restart the program for changes to be reflected"
+  sleep 3
 end
 
 def next_bill(user)
   today = Date.today.strftime("%d").to_i
-  binding.pry
   due = user.subscriptions.map(&:payment_process_date).min_by{|i| (i-today)}
 
   if due == 1 || due == 21 || due ==  31
@@ -216,6 +220,25 @@ else
   puts "Your next bill is due on the #{due}th"
   end
   sleep 3
+end
+
+def all_dates(user)
+
+  subss = user.subscriptions.map(&:payment_process_date).uniq
+   subss.each do |x|
+     if x == 1 || x == 21 || x ==  31
+       puts "A bill is due on the #{x}st"
+     elsif x == 2 || x == 22
+       puts "A bill is due on the #{x}nd"
+     elsif x == 3 || x == 23
+     puts "A bill is due on the #{x}rd"
+   else
+     puts "A bill is due on the #{x}th"
+     end
+     sleep 1
+   end
+
+  sleep 7
 end
 
 def view_companies(user)
