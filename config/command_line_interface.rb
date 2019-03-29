@@ -139,6 +139,7 @@ def selector(num, user=nil)
     when 204
       monthly_income(user)
     else
+      puts `clear`
       puts 'Thanks for using Scribed! Goodbye✌️'
       sleep 5
       return 1
@@ -318,7 +319,7 @@ def company_subscriptions(user)
     puts "#{user.name} doesn't have any subscriptions yet.\n\n"
   else
     puts "These are the subscriptions #{user.name} currently has: \n\n"
-  puts user.subscriptions.map(&:name)
+  puts user.subscriptions.map(&:name).uniq
   end
   sleep 5
   puts `clear`
